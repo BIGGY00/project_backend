@@ -4,7 +4,6 @@ module.exports = {
     return new Promise((resolve, reject) => {
       pool.query(`SELECT * FROM users WHERE email='${email}'`, (err, result) => {
         if (!err) {
-          console.log(result);
           resolve(result);
         } else {
           reject(new Error(err));
