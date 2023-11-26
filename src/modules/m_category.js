@@ -1,9 +1,9 @@
-const conn = require('../config/db')
+const pool = require('../config/db')
 
 module.exports = {
   mAddCategory: (data) => {
     return new Promise((resolve, reject) => {
-      conn.query('INSERT INTO category SET ?', data, (err, result) => {
+      pool.query('INSERT INTO category SET ?', data, (err, result) => {
         if (!err) {
           resolve(result)
         } else {
@@ -14,7 +14,7 @@ module.exports = {
   },
   mAllCategory: (search, sorting, pages) => {
     return new Promise((resolve, reject) => {
-      conn.query(`SELECT * FROM category ${search} ${sorting} ${pages}`, (err, result) => {
+      pool.query(`SELECT * FROM category ${search} ${sorting} ${pages}`, (err, result) => {
         if (!err) {
           resolve(result)
         } else {
@@ -25,7 +25,7 @@ module.exports = {
   },
   mTotalCategory: (search) => {
     return new Promise((resolve, reject) => {
-      conn.query(`SELECT COUNT (*) as total FROM category ${search}`,(err, result) => {
+      pool.query(`SELECT COUNT (*) as total FROM category ${search}`,(err, result) => {
         if(!err) {
           resolve(result)
         } else {
@@ -36,7 +36,7 @@ module.exports = {
   },
   mDetailCategory: (id) => {
     return new Promise((resolve, reject) => {
-      conn.query('SELECT * FROM category WHERE id = ?', [id], (err, result) => {
+      pool.query('SELECT * FROM category WHERE id = ?', [id], (err, result) => {
         if(!err) {
           resolve(result)
         } else {
@@ -47,7 +47,7 @@ module.exports = {
   },
   mUpdateCategory: (data, id) => {
     return new Promise((resolve, reject) => {
-      conn.query('UPDATE category SET ? WHERE id = ?', [data, id], (err, result) => {
+      pool.query('UPDATE category SET ? WHERE id = ?', [data, id], (err, result) => {
         if(!err) {
           resolve(result)
         } else {
@@ -58,7 +58,7 @@ module.exports = {
   },
   mDeleteCategory: (id) => {
     return new Promise((resolve, reject) => {
-      conn.query('DELETE FROM category WHERE id = ?', [id], (err, result) => {
+      pool.query('DELETE FROM category WHERE id = ?', [id], (err, result) => {
         if(!err) {
           resolve(result)
         } else {

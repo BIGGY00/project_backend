@@ -1,8 +1,8 @@
-const conn = require('../config/db')
+const pool = require('../config/db')
 module.exports = {
   mAddStock: (data) => {
     return new Promise((resolve, reject) => {
-      conn.query('INSERT INTO stocks SET ?', data, (err, result) => {
+      pool.query('INSERT INTO stocks SET ?', data, (err, result) => {
         if (!err) {
           resolve(result)
         } else {
@@ -13,7 +13,7 @@ module.exports = {
   },
   updateProductStock: (data) => {
     return new Promise((resolve, reject) => {
-      conn.query(`UPDATE products SET stock=${data}`, (err, result) => {
+      pool.query(`UPDATE products SET stock=${data}`, (err, result) => {
         if (!err) {
           resolve(result)
         } else {
@@ -24,7 +24,7 @@ module.exports = {
   },
   mAllStock: (search, sorting, pages) => {
     return new Promise((resolve, reject) => {
-      conn.query(`
+      pool.query(`
       SELECT stocks.id AS id, stocks.productid AS productid, stocks.category AS category, stocks.qty AS qty, stocks.operator AS operator, stocks.remark AS remark, stocks.created AS created, stocks.updated AS updated, users.username AS username, CONCAT_WS(' ', users.firstname, users.lastname) AS name 
       FROM stocks LEFT JOIN products ON stocks.productId=products.id LEFT JOIN users ON stocks.operator=users.id
       ${search} ${sorting} ${pages}`
@@ -39,7 +39,7 @@ module.exports = {
   },
   mTotalStock: (search) => {
     return new Promise((resolve, reject) => {
-      conn.query(`
+      pool.query(`
       SELECT stocks.id AS id, stocks.productid AS productid, stocks.category AS category, stocks.qty AS qty, stocks.operator AS operator, stocks.remark AS remark, stocks.created AS created, stocks.updated AS updated, users.username AS username, CONCAT_WS(' ', users.firstname, users.lastname) AS name, 
       COUNT (*) AS total FROM stocks LEFT JOIN products ON stocks.productId=products.id LEFT JOIN users ON stocks.operator=users.id
       ${search}`
@@ -54,7 +54,7 @@ module.exports = {
   },
   mDetailStock: (id) => {
     return new Promise((resolve, reject) => {
-      conn.query(`
+      pool.query(`
       SELECT stocks.id AS id, stocks.productid AS productid, stocks.category AS category, stocks.qty AS qty, stocks.operator AS operator, stocks.remark AS remark, stocks.created AS created, stocks.updated AS updated, users.username AS username, CONCAT_WS(' ', users.firstname, users.lastname) AS name 
       FROM stocks LEFT JOIN products ON stocks.productId=products.id LEFT JOIN users ON stocks.operator=users.id
       WHERE stocks.id='${id}'`
@@ -69,7 +69,7 @@ module.exports = {
   },
   mDetailProductStockId: (id) => {
     return new Promise((resolve, reject) => {
-      conn.query(`
+      pool.query(`
       SELECT stocks.id AS id, stocks.productid AS productid, stocks.category AS category, stocks.qty AS qty, stocks.operator AS operator, stocks.remark AS remark, stocks.created AS created, stocks.updated AS updated, users.username AS username, CONCAT_WS(' ', users.firstname, users.lastname) AS name 
       FROM stocks LEFT JOIN products ON stocks.productId=products.id LEFT JOIN users ON stocks.operator=users.id
       WHERE stocks.productid='${id}'`

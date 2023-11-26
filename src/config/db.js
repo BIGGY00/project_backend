@@ -1,12 +1,15 @@
-const mysql = require('mysql2')
+const mysql = require('mysql2');
 
-const { envHOST, envUSER, envPASS, envNAME} = require('../helpers/env')
+const { envHOST, envUSER, envPASS, envNAME } = require('../helpers/env');
 
-const conn = mysql.createConnection ({
+const pool = mysql.createPool({
   host: envHOST,
   user: envUSER,
   password: envPASS,
-  database: envNAME
-})
+  database: envNAME,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+});
 
-module.exports = conn
+module.exports = pool;
